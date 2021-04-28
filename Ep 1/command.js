@@ -1,0 +1,18 @@
+const { prefix } = require('./config.json')
+
+module.exports = (client, aliases, callback) => {
+  if (typeof aliases === 'string') {
+    aliases = [aliases]
+  }
+    client.on('message', (message) => {
+      const { content } = message
+      if(message.author.bot) return //prevents bots
+      aliases.forEach((alias) => {
+        const command = `${prefix}${alias}`
+        if (content.startsWith(`${command} `) || content === command) {
+          console.log(`running the ${command} command`)//tells us which cmd is running kinda
+          callback(message)
+        }
+      })
+    })
+}
